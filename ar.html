@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ملف أعمال روافد | عمر عبدالله الحربي</title>
+<meta name="description" content="دفاتر سنة كاملة وإقفال وضريبة وزكاة وتدفقات نقدية ونقطة تعادل لشركة تجارة مواد بناء افتراضية، في أودو والإكسل.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F8F6; --sheet:#FFFFFF; --ink:#1C2326; --muted:#5B6870; --rule:#D6DDD9;
+  --teal:#1F4E5A; --teal-soft:#E3ECEE; --ochre:#9A6416; --neg:#B42318; --pos:#2D6A4F;
+  --a1:#1F4E5A; --a2:#3F7F8C; --a3:#7FB0B9; --a4:#C3D9DD; --a5:#9A6416; --a6:#D9B47A;
+  --on-dark:#FFFFFF; --on-light:#1C2326;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:#141A1C; --sheet:#1B2326; --ink:#E6ECEA; --muted:#9AA8AE; --rule:#2F3B3F;
+    --teal:#8CC3CE; --teal-soft:#22343A; --ochre:#E0B064; --neg:#F08A7E; --pos:#7FC9A4;
+    --a1:#8CC3CE; --a2:#5E9EAB; --a3:#3D7480; --a4:#2A5059; --a5:#E0B064; --a6:#A8823F;
+    --on-dark:#10181A; --on-light:#10181A;
+    color-scheme: dark;
+  }
+  .dl{color:#10181A}
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.75 "IBM Plex Sans Arabic","Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-variant-numeric:tabular-nums}
+a{color:var(--teal);text-underline-offset:3px}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--ochre);outline-offset:2px}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+header.top{border-bottom:1px solid var(--rule);background:var(--sheet)}
+header.top .wrap{display:flex;flex-wrap:wrap;gap:6px 20px;align-items:baseline;justify-content:space-between;padding-top:14px;padding-bottom:14px}
+.who{font-weight:600}
+.links{display:flex;gap:18px;flex-wrap:wrap;font-size:15px}
+h1,h2,h3{font-family:"IBM Plex Sans Arabic",sans-serif;font-weight:700;line-height:1.2;margin:0}
+h1{font-size:clamp(30px,5vw,46px);max-width:24ch;letter-spacing:-.01em}
+h2{font-size:28px;margin-bottom:6px}
+h3{font-size:20px;margin:28px 0 10px}
+.lede{font-size:18px;color:var(--muted);max-width:62ch;margin:14px 0 0}
+.note{font-size:14px;color:var(--muted)}
+section{padding:56px 0;border-bottom:1px solid var(--rule)}
+section .intro{color:var(--muted);max-width:64ch;margin:0 0 22px}
+.hero{padding:48px 0 40px}
+/* balance equation */
+.equation{margin-top:34px;background:var(--sheet);border:1px solid var(--rule);border-radius:6px;padding:22px}
+.eqrow{display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:center;margin:6px 0}
+.eqlabel{font-size:14px;color:var(--muted)}
+.eqlabel b{display:block;color:var(--ink);font-size:17px}
+.bar{display:flex;height:42px;border-radius:3px;overflow:hidden}
+.bar span{display:flex;align-items:center;padding:0 8px;font-size:12px;white-space:nowrap;overflow:hidden;color:var(--on-dark)}
+.bar span.l{color:var(--on-light)}
+.equals{font-family:"IBM Plex Sans Arabic",sans-serif;font-size:26px;text-align:center;color:var(--muted);margin:2px 0}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:14px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.facts{display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:18px;font-size:14px;color:var(--muted)}
+.facts b{color:var(--ink);font-weight:600}
+/* tables */
+.tbl{width:100%;border-collapse:collapse;background:var(--sheet);font-size:15px}
+.scroll{overflow-x:auto;border:1px solid var(--rule);border-radius:6px;background:var(--sheet)}
+.tbl th,.tbl td{padding:9px 14px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+.tbl th{font-size:13px;font-weight:600;color:var(--muted);background:var(--teal-soft)}
+.tbl td.n,.tbl th.n{text-align:right;white-space:nowrap}
+.tbl tr.sub td{font-weight:600}
+.tbl tr.tot td{font-weight:700;border-top:2px solid var(--ink);border-bottom:none}
+.tbl tr.grp td{background:var(--teal-soft);font-weight:600;color:var(--teal);font-size:14px}
+.tbl td.ind{padding-left:30px}
+.neg{color:var(--neg)}
+.pos{color:var(--pos)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media (max-width:760px){.bar span{font-size:0;padding:0}.cols{grid-template-columns:1fr}.eqrow{grid-template-columns:1fr}.eqlabel b{display:inline;margin-right:8px}}
+.check{display:inline-block;margin-top:10px;font-size:14px;color:var(--pos)}
+/* break-even */
+.model{display:grid;grid-template-columns:300px 1fr;gap:22px;background:var(--sheet);border:1px solid var(--rule);border-radius:6px;padding:22px}
+@media (max-width:760px){.model{grid-template-columns:1fr}}
+.ctrl label{display:block;font-weight:600;margin-bottom:6px}
+.ctrl input[type=range]{width:100%;accent-color:var(--teal)}
+.ctrl .val{font-family:"IBM Plex Sans Arabic",sans-serif;font-size:34px;color:var(--teal)}
+.ctrl button{margin-top:6px;background:none;border:1px solid var(--rule);color:var(--ink);border-radius:4px;padding:5px 10px;font:inherit;font-size:14px;cursor:pointer}
+.out{margin-top:18px;display:grid;gap:10px}
+.out div{display:flex;justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:6px;font-size:15px}
+.out div b{font-weight:700}
+svg text{fill:var(--muted);font:12px "Public Sans",sans-serif}
+.findings li{margin-bottom:14px}
+.findings b{display:block}
+.tags{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none}
+.tags li{border:1px solid var(--rule);background:var(--sheet);border-radius:3px;padding:5px 10px;font-size:14px}
+.dl{display:inline-block;margin-top:6px;padding:10px 16px;background:var(--teal);color:var(--sheet);border-radius:4px;text-decoration:none;font-weight:600}
+footer{padding:28px 0 40px;font-size:14px;color:var(--muted)}
+@media print{
+  header.top .links a{color:var(--ink);text-decoration:none}
+  section{padding:24px 0;break-inside:avoid-page}
+  .model input,.model button{display:none}
+  .dl{border:1px solid #000;color:#000;background:none}
+}
+.tbl th,.tbl td{text-align:right}
+.tbl td.n,.tbl th.n{text-align:left;direction:ltr}
+.tbl td.ind{padding-left:14px;padding-right:30px}
+.legend i{margin-right:0;margin-left:6px}
+.num{direction:ltr;unicode-bidi:isolate}
+svg{direction:ltr}
+svg text{font-family:"IBM Plex Sans Arabic",sans-serif}
+h1{letter-spacing:0;max-width:26ch}
+.ctrl .val{text-align:right}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <span class="who">عمر عبدالله الحربي</span>
+    <nav class="links">
+      <a href="mailto:Omar2026hrb@gmail.com">Omar2026hrb@gmail.com</a>
+      <a href="https://www.linkedin.com/in/omar-abdullah-accountant">لينكدإن</a>
+      <a href="Rawafid_FY2026_Model.xlsx" download>ملف الإكسل</a>
+      <a href="index.html" lang="en">English</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+<section class="hero" aria-labelledby="t">
+  <h1 id="t">دفاتر سنة كاملة لشركة تجارة مواد بناء، مقفلة ومطابقة</h1>
+  <p class="lede">روافد للتجارة شركة افتراضية أديرها في أودو. سجّلت عملياتها من يناير إلى ديسمبر 2026، وأقفلت السنة بالزكاة والإهلاك، ثم بنيت في الإكسل قائمة التدفقات النقدية والنسب المالية ونموذج نقطة التعادل، وطابقت كل رقم مع الدفاتر.</p>
+
+  <div class="equation" role="img" aria-label="إجمالي الأصول 2,096,874.40 ريال يساوي الالتزامات وحقوق الملكية 2,096,874.40 ريال">
+    <div class="eqrow">
+      <div class="eqlabel"><b class="num">2,096,874.40</b>الأصول</div>
+      <div class="bar">
+        <span style="width:37.2%;background:var(--a1)">النقد 37%</span>
+        <span style="width:19.3%;background:var(--a2)">المدينون 19%</span>
+        <span style="width:17.0%;background:var(--a3)" class="l">الضريبة 17%</span>
+        <span style="width:15.2%;background:var(--a4)" class="l">ثابتة 15%</span>
+        <span style="width:11.1%;background:var(--a6)" class="l">مخزون 11%</span>
+        <span style="width:0.3%;background:var(--a5)"></span>
+      </div>
+    </div>
+    <div class="equals">=</div>
+    <div class="eqrow">
+      <div class="eqlabel"><b class="num">2,096,874.40</b>الالتزامات وحقوق الملكية</div>
+      <div class="bar">
+        <span style="width:19.6%;background:var(--a5)">الدائنون 20%</span>
+        <span style="width:17.1%;background:var(--a6)" class="l">ضريبة المخرجات 17%</span>
+        <span style="width:1.2%;background:var(--neg)"></span>
+        <span style="width:47.7%;background:var(--a1)">رأس المال 48%</span>
+        <span style="width:14.4%;background:var(--a2)">الأرباح 14%</span>
+      </div>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--a1)"></i>النقد 37.2%</span><span><i style="background:var(--a2)"></i>المدينون بالصافي 19.3%</span><span><i style="background:var(--a3)"></i>ضريبة قابلة للاسترداد 17.0%</span><span><i style="background:var(--a4)"></i>الأصول الثابتة 15.2%</span><span><i style="background:var(--a6)"></i>المخزون 11.1%</span><span><i style="background:var(--a5)"></i>مدفوعات مقدمة 0.3%</span>
+    </div>
+    <div class="legend" style="margin-top:6px">
+      <span><i style="background:var(--a5)"></i>الدائنون والتأمينات 19.6%</span><span><i style="background:var(--a6)"></i>ضريبة المخرجات 17.1%</span><span><i style="background:var(--neg)"></i>زكاة مستحقة 1.2%</span><span><i style="background:var(--a1)"></i>رأس المال 47.7%</span><span><i style="background:var(--a2)"></i>الأرباح 14.4%</span>
+    </div>
+  </div>
+
+  <div class="facts">
+    <span>الإيرادات <b class="num">9,245,000</b></span>
+    <span>صافي الربح <b class="num">302,994.65</b></span>
+    <span>الزكاة <b class="num">26,267.85</b></span>
+    <span>الفترة <b>يناير إلى ديسمبر 2026</b></span>
+    <span>الأدوات <b>Odoo و Excel</b></span>
+  </div>
+  <p class="note" style="margin-top:14px">شركة وأرقام افتراضية. أكتوبر إلى ديسمبر مسجلة بقيود شهرية مجمعة. كل المبالغ بالريال السعودي.</p>
+</section>
+
+<section id="statements" aria-labelledby="s1">
+  <h2 id="s1">القوائم المالية</h2>
+  <p class="intro">من تقريري الربح والخسارة والميزانية العمومية في أودو بتاريخ 31 ديسمبر 2026. نقلت الزكاة تحت الربح قبل الزكاة، مكانها الصحيح، بينما أودو يضعها ضمن المصروفات التشغيلية.</p>
+  <div class="cols">
+    <div>
+      <h3>قائمة الدخل</h3>
+      <div class="scroll"><table class="tbl"><tbody>
+        <tr><td>مبيعات البضاعة</td><td class="n">9,221,000.00</td></tr>
+        <tr><td>إيرادات إيجار</td><td class="n">24,000.00</td></tr>
+        <tr class="sub"><td>الإيرادات</td><td class="n">9,245,000.00</td></tr>
+        <tr><td>تكلفة البضاعة المباعة</td><td class="n">(7,334,000.00)</td></tr>
+        <tr class="sub"><td>مجمل الربح</td><td class="n">1,911,000.00</td></tr>
+        <tr><td class="ind">الرواتب والبدلات</td><td class="n">(1,110,450.00)</td></tr>
+        <tr><td class="ind">حصة الشركة في التأمينات</td><td class="n">(96,926.40)</td></tr>
+        <tr><td class="ind">إيجار المستودع</td><td class="n">(166,000.00)</td></tr>
+        <tr><td class="ind">تأجير المركبات</td><td class="n">(87,500.00)</td></tr>
+        <tr><td class="ind">المياه والكهرباء</td><td class="n">(48,000.00)</td></tr>
+        <tr><td class="ind">التأمين</td><td class="n">(37,000.00)</td></tr>
+        <tr><td class="ind">الديون المشكوك في تحصيلها</td><td class="n">(8,625.00)</td></tr>
+        <tr><td class="ind">خسارة إعادة تقييم أصل</td><td class="n">(7,000.00)</td></tr>
+        <tr><td class="ind">مصروفات أخرى</td><td class="n">(11,845.00)</td></tr>
+        <tr class="sub"><td>الدخل التشغيلي</td><td class="n">337,653.60</td></tr>
+        <tr><td>فوائد وفروق عملة وربح بيع أصل</td><td class="n">11,010.00</td></tr>
+        <tr><td>الإهلاك</td><td class="n">(19,401.10)</td></tr>
+        <tr class="sub"><td>الربح قبل الزكاة</td><td class="n">329,262.50</td></tr>
+        <tr><td>الزكاة</td><td class="n">(26,267.85)</td></tr>
+        <tr class="tot"><td>صافي الربح</td><td class="n">302,994.65</td></tr>
+      </tbody></table></div>
+    </div>
+    <div>
+      <h3>الميزانية العمومية</h3>
+      <div class="scroll"><table class="tbl"><tbody>
+        <tr><td>النقد والبنوك</td><td class="n">780,218.46</td></tr>
+        <tr><td>الذمم المدينة</td><td class="n">412,850.00</td></tr>
+        <tr><td class="ind">ناقص مخصص الديون المشكوك فيها</td><td class="n">(8,625.00)</td></tr>
+        <tr><td>المخزون</td><td class="n">232,011.00</td></tr>
+        <tr><td>ضريبة قابلة للاسترداد (مدخلات وجمارك)</td><td class="n">355,581.04</td></tr>
+        <tr><td>تأمين مدفوع مقدمًا</td><td class="n">6,000.00</td></tr>
+        <tr><td>الأصول الثابتة بالصافي</td><td class="n">318,838.90</td></tr>
+        <tr class="sub"><td>إجمالي الأصول</td><td class="n">2,096,874.40</td></tr>
+        <tr><td>الذمم الدائنة</td><td class="n">395,600.00</td></tr>
+        <tr><td>التأمينات الاجتماعية المستحقة</td><td class="n">14,471.90</td></tr>
+        <tr><td>ضريبة المخرجات</td><td class="n">357,540.00</td></tr>
+        <tr><td>زكاة مستحقة</td><td class="n">26,267.85</td></tr>
+        <tr class="sub"><td>إجمالي الالتزامات</td><td class="n">793,879.75</td></tr>
+        <tr><td>رأس المال</td><td class="n">1,000,000.00</td></tr>
+        <tr><td>أرباح السنة الحالية</td><td class="n">302,994.65</td></tr>
+        <tr class="tot"><td>الالتزامات وحقوق الملكية</td><td class="n">2,096,874.40</td></tr>
+      </tbody></table></div>
+      <span class="check">متوازنة، والأرباح مطابقة لصافي الربح.</span>
+    </div>
+  </div>
+</section>
+
+<section id="cashflow" aria-labelledby="s2">
+  <h2 id="s2">التدفقات النقدية بالطريقة غير المباشرة</h2>
+  <p class="intro">تقرير التدفقات في أودو وضع أغلب نقد السنة تحت "غير مصنفة"، فبنيت القائمة في الإكسل من الميزانية. والنتيجة تطابق رصيد البنك 780,218.46 بالضبط.</p>
+  <div class="scroll"><table class="tbl"><tbody>
+    <tr class="grp"><td colspan="2">الأنشطة التشغيلية</td></tr>
+    <tr><td>صافي الربح</td><td class="n">302,994.65</td></tr>
+    <tr><td>الإهلاك وخسارة التقييم والمخصص والزكاة غير المدفوعة</td><td class="n">61,293.95</td></tr>
+    <tr><td>ربح بيع أصل (المتحصلات تحت الاستثمار)</td><td class="n">(8,240.00)</td></tr>
+    <tr><td>الزيادة في المدينين والمخزون والضريبة القابلة للاسترداد والمدفوعات المقدمة</td><td class="n">(1,006,442.04)</td></tr>
+    <tr><td>الزيادة في الدائنين والتأمينات وضريبة المخرجات</td><td class="n">767,611.90</td></tr>
+    <tr class="sub"><td>صافي النقد من التشغيل</td><td class="n">117,218.46</td></tr>
+    <tr class="grp"><td colspan="2">الأنشطة الاستثمارية</td></tr>
+    <tr><td>شراء أصول ثابتة</td><td class="n">(468,000.00)</td></tr>
+    <tr><td>متحصلات بيع مركبة</td><td class="n">131,000.00</td></tr>
+    <tr class="sub"><td>صافي النقد المستخدم في الاستثمار</td><td class="n">(337,000.00)</td></tr>
+    <tr class="grp"><td colspan="2">الأنشطة التمويلية</td></tr>
+    <tr class="sub"><td>رأس المال المدفوع</td><td class="n">1,000,000.00</td></tr>
+    <tr class="tot"><td>صافي الزيادة في النقد = رصيد آخر المدة</td><td class="n">780,218.46</td></tr>
+  </tbody></table></div>
+  <p class="note">وحركة الأصول الثابتة مطابقة أيضًا: مشتريات 468,000، ناقص خسارة تقييم 7,000، ومركبة مباعة بقيمة دفترية 122,760، وإهلاك 19,401.10، يبقى 318,838.90.</p>
+</section>
+
+<section id="ratios" aria-labelledby="s3">
+  <h2 id="s3">النسب المالية</h2>
+  <p class="intro">على أرصدة نهاية السنة. الشركة بدأت في 2026، فما فيه أرصدة أول المدة لحساب المتوسط.</p>
+  <div class="scroll"><table class="tbl">
+    <thead><tr><th>النسبة</th><th class="n">القيمة</th><th>طريقة الحساب</th><th>القراءة</th></tr></thead>
+    <tbody>
+    <tr class="grp"><td colspan="4">السيولة</td></tr>
+    <tr><td>نسبة التداول</td><td class="n">2.24</td><td>الأصول المتداولة ÷ الالتزامات المتداولة</td><td>مريحة</td></tr>
+    <tr><td>النسبة السريعة</td><td class="n">1.49</td><td>(النقد + صافي المدينين) ÷ الالتزامات المتداولة</td><td>قوية</td></tr>
+    <tr><td>نسبة النقدية</td><td class="n">0.98</td><td>النقد ÷ الالتزامات المتداولة</td><td>النقد وحده يغطيها تقريبًا</td></tr>
+    <tr class="grp"><td colspan="4">الربحية</td></tr>
+    <tr><td>هامش مجمل الربح</td><td class="n">20.7%</td><td>مجمل الربح ÷ الإيرادات</td><td>طبيعي لشركة تجارة</td></tr>
+    <tr><td>هامش التشغيل</td><td class="n">3.7%</td><td>الدخل التشغيلي ÷ الإيرادات</td><td>ضعيف</td></tr>
+    <tr><td>هامش صافي الربح</td><td class="n">3.3%</td><td>صافي الربح ÷ الإيرادات</td><td>ضعيف</td></tr>
+    <tr><td>المصروفات التشغيلية إلى مجمل الربح</td><td class="n">82.3%</td><td><span class="num">1,573,346.40 ÷ 1,911,000</span></td><td>السبب الرئيسي لضعف الهوامش</td></tr>
+    <tr><td>العائد على الأصول</td><td class="n">14.4%</td><td>صافي الربح ÷ إجمالي الأصول</td><td>قوي</td></tr>
+    <tr><td>العائد على حقوق الملكية</td><td class="n">23.3%</td><td>صافي الربح ÷ حقوق الملكية</td><td>قوي لسنة أولى</td></tr>
+    <tr class="grp"><td colspan="4">النشاط والمديونية</td></tr>
+    <tr><td>معدل دوران الأصول</td><td class="n">4.41×</td><td>الإيرادات ÷ إجمالي الأصول</td><td>الأصول مستغلة بكفاءة</td></tr>
+    <tr><td>نسبة الديون</td><td class="n">37.9%</td><td>الالتزامات ÷ إجمالي الأصول</td><td>محافظة</td></tr>
+    <tr><td>الالتزامات إلى حقوق الملكية</td><td class="n">0.61</td><td>الالتزامات ÷ حقوق الملكية</td><td>آمنة</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">استبعدت فترة التحصيل ودوران المخزون عمدًا، لأن تقرير أعمار الديون وحساب المخزون يحتاجان تصحيح أولًا (انظر ملاحظات المراجعة).</p>
+  <p><b>الخلاصة.</b> روافد سيولتها قوية ومديونيتها منخفضة. نقطة ضعفها التكاليف: المصروفات التشغيلية تأخذ 82% من مجمل الربح، والرواتب وحدها 58% منه.</p>
+</section>
+
+<section id="breakeven" aria-labelledby="s4">
+  <h2 id="s4">نموذج نقطة التعادل</h2>
+  <p class="intro">التكاليف الثابتة الشهرية هي إجماليات السنة في أودو مقسومة على 12. ونسبة التكلفة المتغيرة من الدفاتر (7,334,000 ÷ 9,221,000). حرّكها وشوف حساسية الشركة لأسعار الشراء.</p>
+  <div class="model">
+    <div class="ctrl">
+      <label for="vcr">نسبة التكلفة المتغيرة</label>
+      <div class="val num" id="vcrOut">79.5%</div>
+      <input type="range" id="vcr" min="0.70" max="0.88" step="any" value="0.7953584" aria-describedby="vcrHelp" dir="ltr">
+      <div class="note" id="vcrHelp">من الدفاتر: 79.5%. الربح يصير صفر عند 82.4%.</div>
+      <button type="button" id="reset">رجوع لنسبة الدفاتر</button>
+      <div class="out" aria-live="polite">
+        <div><span>نقطة التعادل شهريًا</span><b id="be" class="num"></b></div>
+        <div><span>متوسط المبيعات شهريًا</span><b class="num">768,416.67</b></div>
+        <div><span>هامش الأمان</span><b id="mos" class="num"></b></div>
+        <div><span>الربح (الخسارة) الشهري</span><b id="pr" class="num"></b></div>
+      </div>
+    </div>
+    <div>
+      <svg id="chart" viewBox="0 0 560 340" width="100%" role="img" aria-label="رسم نقطة التعادل: الإيرادات وإجمالي التكاليف مقابل المبيعات الشهرية"></svg>
+    </div>
+  </div>
+  <h3>التكاليف الثابتة الشهرية</h3>
+  <div class="scroll"><table class="tbl"><tbody>
+    <tr><td>الرواتب والبدلات</td><td class="n">92,537.50</td></tr>
+    <tr><td>إيجار المستودع</td><td class="n">13,833.33</td></tr>
+    <tr><td>حصة الشركة في التأمينات</td><td class="n">8,077.20</td></tr>
+    <tr><td>تأجير المركبات</td><td class="n">7,291.67</td></tr>
+    <tr><td>الإهلاك (القسط الشهري الكامل من سجل الأصول)</td><td class="n">5,375.00</td></tr>
+    <tr><td>المياه والكهرباء</td><td class="n">4,000.00</td></tr>
+    <tr><td>التأمين</td><td class="n">3,083.33</td></tr>
+    <tr><td>مصروفات أخرى</td><td class="n">987.08</td></tr>
+    <tr class="tot"><td>الإجمالي</td><td class="n">135,185.12</td></tr>
+  </tbody></table></div>
+  <h3>المطابقة مع الدفاتر، السنة كاملة</h3>
+  <div class="scroll"><table class="tbl"><tbody>
+    <tr><td>ربح النموذج التشغيلي × 12</td><td class="n">264,778.60</td></tr>
+    <tr><td>+ إيرادات الإيجار خارج مبيعات البضاعة</td><td class="n">24,000.00</td></tr>
+    <tr><td>+ إهلاك النموذج، وأودو يسجله تحت الدخل التشغيلي</td><td class="n">64,500.00</td></tr>
+    <tr><td>− الديون المشكوك فيها وخسارة التقييم والزكاة، وأودو يضعها في المصروفات التشغيلية</td><td class="n">(41,892.85)</td></tr>
+    <tr class="tot"><td>الدخل التشغيلي في أودو (الفرق صفر)</td><td class="n">311,385.75</td></tr>
+  </tbody></table></div>
+</section>
+
+<section id="tax" aria-labelledby="s5">
+  <h2 id="s5">الزكاة وضريبة القيمة المضافة</h2>
+  <div class="cols">
+    <div>
+      <h3>الزكاة، إقفال السنة</h3>
+      <div class="scroll"><table class="tbl"><tbody>
+        <tr><td>رأس المال</td><td class="n">1,000,000.00</td></tr>
+        <tr><td>الربح قبل الزكاة</td><td class="n">329,262.50</td></tr>
+        <tr><td>مخصص الديون المشكوك فيها</td><td class="n">8,625.00</td></tr>
+        <tr><td>ناقص صافي الأصول الثابتة</td><td class="n">(318,838.90)</td></tr>
+        <tr class="sub"><td>الوعاء الزكوي</td><td class="n">1,019,048.60</td></tr>
+        <tr><td>النسبة للسنة الميلادية (2.5% × 365/354)</td><td class="n">2.5775%</td></tr>
+        <tr class="tot"><td>الزكاة المسجلة (حساب 400072 / 201040)</td><td class="n">26,267.85</td></tr>
+      </tbody></table></div>
+      <p class="note">وعاء مبسط لشركة تجارية، والقواعد الكاملة تحددها هيئة الزكاة والضريبة والجمارك.</p>
+    </div>
+    <div>
+      <h3>إقرار ضريبة القيمة المضافة، يوليو إلى سبتمبر</h3>
+      <div class="scroll"><table class="tbl">
+        <thead><tr><th>البند</th><th class="n">المبلغ</th><th class="n">الضريبة</th></tr></thead>
+        <tbody>
+        <tr><td>1 مبيعات خاضعة للنسبة الأساسية</td><td class="n">151,819.00</td><td class="n">22,772.85</td></tr>
+        <tr><td>4 صادرات</td><td class="n">90,000.00</td><td class="n">-</td></tr>
+        <tr><td>5 مبيعات معفاة</td><td class="n">24,000.00</td><td class="n">-</td></tr>
+        <tr><td>7 مشتريات محلية</td><td class="n">485,700.00</td><td class="n">(72,855.00)</td></tr>
+        <tr><td>8 استيراد بضريبة مدفوعة في الجمارك</td><td class="n">150,000.00</td><td class="n">(22,500.00)</td></tr>
+        <tr><td>9 استيراد بالاحتساب العكسي</td><td class="n">80,000.00</td><td class="n">-</td></tr>
+        <tr><td>11 مشتريات معفاة</td><td class="n">8,000.00</td><td class="n">-</td></tr>
+        <tr class="tot"><td>16 صافي الضريبة (مطالبة باسترداد)</td><td class="n"></td><td class="n">(72,582.15)</td></tr>
+        </tbody>
+      </table></div>
+      <p class="note">طابقت البند 8 مع الفاتورة BILL/2026/09/0013 والبند 9 مع BILL/2026/09/0014.</p>
+    </div>
+  </div>
+</section>
+
+<section id="aging" aria-labelledby="s6">
+  <h2 id="s6">المدينون والدائنون</h2>
+  <p class="intro">الأرصدة في 31 ديسمبر 2026 حسب العميل والمورد. الإجماليات مطابقة للميزانية، لكن توزيع الأعمار يحتاج تصحيح، موضح في ملاحظات المراجعة.</p>
+  <div class="cols">
+    <div class="scroll"><table class="tbl">
+      <thead><tr><th>العميل</th><th class="n">الرصيد</th></tr></thead>
+      <tbody>
+      <tr><td>مقاولات النور</td><td class="n">98,900.00</td></tr>
+      <tr><td>مؤسسة البناء الحديثة</td><td class="n">76,590.00</td></tr>
+      <tr><td>الديار للمقاولات العامة</td><td class="n">59,340.00</td></tr>
+      <tr><td>شركة الأفق للمقاولات</td><td class="n">59,340.00</td></tr>
+      <tr><td>مؤسسة الساحل للتشييد</td><td class="n">59,340.00</td></tr>
+      <tr><td>نجم الخليج للاستثمار العقاري</td><td class="n">59,340.00</td></tr>
+      <tr class="tot"><td>الذمم المدينة</td><td class="n">412,850.00</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table class="tbl">
+      <thead><tr><th>المورد</th><th class="n">الرصيد</th></tr></thead>
+      <tbody>
+      <tr><td>الخليج لمواد البناء</td><td class="n">197,800.00</td></tr>
+      <tr><td>مؤسسة الصلب الحديث للحديد</td><td class="n">98,900.00</td></tr>
+      <tr><td>مصنع الواحة للطوب والبلوك</td><td class="n">98,900.00</td></tr>
+      <tr><td>التأمينات الاجتماعية (بدون شريك في أودو)</td><td class="n">14,471.90</td></tr>
+      <tr class="tot"><td>الدائنون</td><td class="n">410,071.90</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section id="review" aria-labelledby="s7">
+  <h2 id="s7">ملاحظات المراجعة</h2>
+  <p class="intro">اللي لقيته لما راجعت السنة، والإجراء المقترح لكل نقطة.</p>
+  <ul class="findings">
+    <li><b>توزيع أعمار الديون غير دقيق.</b> المدينون يظهر فيهم <span class="num">−368,000</span> في فئة 1–30 يوم مقابل <span class="num">358,800</span> أقدم من 120 يوم، ونفس النمط عند الدائنين. السبب إن الدفعات مسجلة لكنها غير مربوطة بالفواتير. الإجراء: تسوية كل دفعة مع فاتورتها في أودو ثم إعادة طباعة التقرير.</li>
+    <li><b>حسابات الضريبة ما تمت تسويتها.</b> ضريبة المدخلات (<span class="num">355,581.04</span>) والمخرجات (<span class="num">357,540</span>) تراكمت طول السنة، وإقرار الربع الثالث التقط جزء فقط من مبيعات الربع لأن بنود كثيرة مستوردة بدون شبكة ضريبية. الإجراء: وضع الشبكة الضريبية على كل بند بيع وشراء، وقيد تسوية في نهاية كل ربع.</li>
+    <li><b>تقرير التدفقات في أودو أغلبه "غير مصنف".</b> الحسابات ما عليها تصنيف تدفق نقدي. الإجراء: تصنيفها، وإلى ذلك الحين قائمة الإكسل أعلاه هي المعتمدة.</li>
+    <li><b>الإهلاك بدأ متأخر.</b> الأصول سُجلت منتصف سبتمبر، فالمسجل <span class="num">19,401.10</span> فقط مقابل قسط سنة كاملة حوالي <span class="num">64,500</span>. النموذج يستخدم القسط الشهري الكامل والمطابقة توضح الفرق.</li>
+    <li><b>حساب المخزون ما يتحرك مع المبيعات.</b> المشتريات تروح مباشرة لتكلفة البضاعة المباعة، فدوران المخزون بلا معنى حاليًا. الإجراء: تفعيل التقييم المستمر للمخزون.</li>
+    <li><b>بند التأمينات تحت مورد "غير معروف".</b> الإجراء: إنشاء التأمينات الاجتماعية كشريك وربط قيود الرواتب به.</li>
+  </ul>
+</section>
+
+<section id="scope" aria-labelledby="s8">
+  <h2 id="s8">نطاق العمل</h2>
+  <ul class="tags" style="margin-top:16px">
+    <li>دليل الحسابات</li><li>فواتير العملاء والموردين</li><li>القيود اليومية والاستيراد</li><li>الرواتب والتأمينات</li><li>إقرار ضريبة القيمة المضافة</li><li>الزكاة</li><li>التسوية البنكية</li><li>الأصول الثابتة: إهلاك وبيع وإعادة تقييم</li><li>تقييم المخزون (FIFO والمتوسط المرجح)</li><li>المستحقات والمدفوعات المقدمة والإيرادات المؤجلة</li><li>مخصص الديون المشكوك فيها</li><li>إقفال السنة</li><li>القوائم المالية</li><li>التدفقات النقدية غير المباشرة</li><li>تحليل النسب</li><li>نقطة التعادل والحساسية</li><li>نمذجة الإكسل</li>
+  </ul>
+  <p style="margin-top:24px"><a class="dl" href="Rawafid_FY2026_Model.xlsx" download>تحميل ملف الإكسل</a></p>
+  <p class="note">سبع أوراق بمعادلات حية: أرصدة أودو، النسب، التدفقات النقدية، الزكاة، نقطة التعادل مع الحساسية والرسم، والمطابقة مع الدفاتر. وكل خلايا التحقق تعطي صفر.</p>
+</section>
+
+</div>
+</main>
+
+<footer><div class="wrap">ملف أعمال روافد، عمر عبدالله الحربي. شركة افتراضية وأرقام محاكاة، منفذ في أودو والإكسل.</div></footer>
+
+<script>
+(function(){
+  var F=135185.1166667, S=768416.6666667, BOOK=0.7953584;
+  var fmt=function(x){var s=Math.abs(x).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});return x<0?'('+s+')':s;};
+  var el=function(id){return document.getElementById(id)};
+  var svg=el('chart'), NS='http://www.w3.org/2000/svg';
+  var W=560,H=340,L=64,R=16,T=16,Bm=40,MAX=1200000;
+  var X=function(v){return L+(v/MAX)*(W-L-R)}, Y=function(v){return H-Bm-(v/MAX)*(H-T-Bm)};
+  function mk(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);svg.appendChild(e);return e;}
+  function draw(v){
+    svg.innerHTML='';
+    var css=getComputedStyle(document.documentElement);
+    var rule=css.getPropertyValue('--rule'),teal=css.getPropertyValue('--teal'),ochre=css.getPropertyValue('--ochre'),ink=css.getPropertyValue('--ink'),muted=css.getPropertyValue('--muted');
+    for(var i=0;i<=6;i++){var g=i*200000;
+      mk('line',{x1:L,x2:W-R,y1:Y(g),y2:Y(g),stroke:rule});
+      var t=mk('text',{x:L-8,y:Y(g)+4,'text-anchor':'end'});t.textContent=g>=1000000?(g/1e6)+'m':(g/1000)+'k';
+      var t2=mk('text',{x:X(g),y:H-Bm+18,'text-anchor':'middle'});t2.textContent=g>=1000000?(g/1e6)+'m':(g/1000)+'k';}
+    var tx=mk('text',{x:(L+W-R)/2,y:H-6,'text-anchor':'middle'});tx.textContent='المبيعات الشهرية (ريال)';
+    mk('line',{x1:X(0),y1:Y(0),x2:X(MAX),y2:Y(MAX),stroke:teal,'stroke-width':2.5});
+    mk('line',{x1:X(0),y1:Y(F),x2:X(MAX),y2:Y(Math.min(F+v*MAX,MAX*1.2)),stroke:ochre,'stroke-width':2.5});
+    mk('line',{x1:X(0),y1:Y(F),x2:X(MAX),y2:Y(F),stroke:muted,'stroke-dasharray':'4 4'});
+    mk('line',{x1:X(S),y1:Y(0),x2:X(S),y2:Y(MAX),stroke:ink,'stroke-dasharray':'2 4'});
+    var ts=mk('text',{x:X(S)-6,y:T+12,'text-anchor':'end'});ts.textContent='متوسط المبيعات';
+    var be=F/(1-v);
+    if(be<=MAX){mk('circle',{cx:X(be),cy:Y(be),r:6,fill:ochre,stroke:'none'});
+      var tb=mk('text',{x:X(be)-8,y:Y(be)-12,'text-anchor':'end'});tb.textContent='نقطة التعادل';}
+    var l1=mk('text',{x:X(1000000),y:Y(1000000)-10,'text-anchor':'end'});l1.textContent='الإيرادات';var l3=mk('text',{x:X(1000000)+6,y:Y(F+v*1000000)+18});l3.textContent='إجمالي التكاليف';
+    var l2=mk('text',{x:L+6,y:Y(F)-8});l2.textContent='التكاليف الثابتة';
+  }
+  function update(){
+    var v=parseFloat(el('vcr').value), be=F/(1-v), mos=(S-be)/S, p=S*(1-v)-F;
+    el('vcrOut').textContent=(v*100).toFixed(1)+'%';
+    el('be').textContent=fmt(be);
+    el('mos').textContent=(mos*100).toFixed(1)+'%';
+    var pr=el('pr'); pr.textContent=fmt(p); pr.className=p<0?'neg':'pos';
+    draw(v);
+  }
+  el('vcr').addEventListener('input',update);
+  el('reset').addEventListener('click',function(){el('vcr').value=BOOK;update();});
+  if(window.matchMedia){matchMedia('(prefers-color-scheme: dark)').addEventListener('change',update);}
+  update();
+})();
+</script>
+</body>
+</html>

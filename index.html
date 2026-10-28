@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rawafid Accounting Portfolio | Omar Abdullah Alharbi</title>
+<meta name="description" content="Full-year bookkeeping, year-end close, VAT, zakat, cash flow and break-even analysis for a simulated building materials trading company, in Odoo and Excel.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F8F6; --sheet:#FFFFFF; --ink:#1C2326; --muted:#5B6870; --rule:#D6DDD9;
+  --teal:#1F4E5A; --teal-soft:#E3ECEE; --ochre:#9A6416; --neg:#B42318; --pos:#2D6A4F;
+  --a1:#1F4E5A; --a2:#3F7F8C; --a3:#7FB0B9; --a4:#C3D9DD; --a5:#9A6416; --a6:#D9B47A;
+  --on-dark:#FFFFFF; --on-light:#1C2326;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:#141A1C; --sheet:#1B2326; --ink:#E6ECEA; --muted:#9AA8AE; --rule:#2F3B3F;
+    --teal:#8CC3CE; --teal-soft:#22343A; --ochre:#E0B064; --neg:#F08A7E; --pos:#7FC9A4;
+    --a1:#8CC3CE; --a2:#5E9EAB; --a3:#3D7480; --a4:#2A5059; --a5:#E0B064; --a6:#A8823F;
+    --on-dark:#10181A; --on-light:#10181A;
+    color-scheme: dark;
+  }
+  .dl{color:#10181A}
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 "Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-variant-numeric:tabular-nums}
+a{color:var(--teal);text-underline-offset:3px}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--ochre);outline-offset:2px}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+header.top{border-bottom:1px solid var(--rule);background:var(--sheet)}
+header.top .wrap{display:flex;flex-wrap:wrap;gap:6px 20px;align-items:baseline;justify-content:space-between;padding-top:14px;padding-bottom:14px}
+.who{font-weight:600}
+.links{display:flex;gap:18px;flex-wrap:wrap;font-size:15px}
+h1,h2,h3{font-family:"Newsreader",Georgia,serif;font-weight:600;line-height:1.2;margin:0}
+h1{font-size:clamp(30px,5vw,46px);max-width:24ch;letter-spacing:-.01em}
+h2{font-size:28px;margin-bottom:6px}
+h3{font-size:20px;margin:28px 0 10px}
+.lede{font-size:18px;color:var(--muted);max-width:62ch;margin:14px 0 0}
+.note{font-size:14px;color:var(--muted)}
+section{padding:56px 0;border-bottom:1px solid var(--rule)}
+section .intro{color:var(--muted);max-width:64ch;margin:0 0 22px}
+.hero{padding:48px 0 40px}
+/* balance equation */
+.equation{margin-top:34px;background:var(--sheet);border:1px solid var(--rule);border-radius:6px;padding:22px}
+.eqrow{display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:center;margin:6px 0}
+.eqlabel{font-size:14px;color:var(--muted)}
+.eqlabel b{display:block;color:var(--ink);font-size:17px}
+.bar{display:flex;height:42px;border-radius:3px;overflow:hidden}
+.bar span{display:flex;align-items:center;padding:0 8px;font-size:12px;white-space:nowrap;overflow:hidden;color:var(--on-dark)}
+.bar span.l{color:var(--on-light)}
+.equals{font-family:"Newsreader",Georgia,serif;font-size:26px;text-align:center;color:var(--muted);margin:2px 0}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:14px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.facts{display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:18px;font-size:14px;color:var(--muted)}
+.facts b{color:var(--ink);font-weight:600}
+/* tables */
+.tbl{width:100%;border-collapse:collapse;background:var(--sheet);font-size:15px}
+.scroll{overflow-x:auto;border:1px solid var(--rule);border-radius:6px;background:var(--sheet)}
+.tbl th,.tbl td{padding:9px 14px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+.tbl th{font-size:13px;font-weight:600;color:var(--muted);background:var(--teal-soft)}
+.tbl td.n,.tbl th.n{text-align:right;white-space:nowrap}
+.tbl tr.sub td{font-weight:600}
+.tbl tr.tot td{font-weight:700;border-top:2px solid var(--ink);border-bottom:none}
+.tbl tr.grp td{background:var(--teal-soft);font-weight:600;color:var(--teal);font-size:14px}
+.tbl td.ind{padding-left:30px}
+.neg{color:var(--neg)}
+.pos{color:var(--pos)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media (max-width:760px){.bar span{font-size:0;padding:0}.cols{grid-template-columns:1fr}.eqrow{grid-template-columns:1fr}.eqlabel b{display:inline;margin-right:8px}}
+.check{display:inline-block;margin-top:10px;font-size:14px;color:var(--pos)}
+/* break-even */
+.model{display:grid;grid-template-columns:300px 1fr;gap:22px;background:var(--sheet);border:1px solid var(--rule);border-radius:6px;padding:22px}
+@media (max-width:760px){.model{grid-template-columns:1fr}}
+.ctrl label{display:block;font-weight:600;margin-bottom:6px}
+.ctrl input[type=range]{width:100%;accent-color:var(--teal)}
+.ctrl .val{font-family:"Newsreader",Georgia,serif;font-size:34px;color:var(--teal)}
+.ctrl button{margin-top:6px;background:none;border:1px solid var(--rule);color:var(--ink);border-radius:4px;padding:5px 10px;font:inherit;font-size:14px;cursor:pointer}
+.out{margin-top:18px;display:grid;gap:10px}
+.out div{display:flex;justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:6px;font-size:15px}
+.out div b{font-weight:700}
+svg text{fill:var(--muted);font:12px "Public Sans",sans-serif}
+.findings li{margin-bottom:14px}
+.findings b{display:block}
+.tags{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none}
+.tags li{border:1px solid var(--rule);background:var(--sheet);border-radius:3px;padding:5px 10px;font-size:14px}
+.dl{display:inline-block;margin-top:6px;padding:10px 16px;background:var(--teal);color:var(--sheet);border-radius:4px;text-decoration:none;font-weight:600}
+footer{padding:28px 0 40px;font-size:14px;color:var(--muted)}
+@media print{
+  header.top .links a{color:var(--ink);text-decoration:none}
+  section{padding:24px 0;break-inside:avoid-page}
+  .model input,.model button{display:none}
+  .dl{border:1px solid #000;color:#000;background:none}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <span class="who">Omar Abdullah Alharbi</span>
+    <nav class="links">
+      <a href="mailto:Omar2026hrb@gmail.com">Omar2026hrb@gmail.com</a>
+      <a href="https://www.linkedin.com/in/omar-abdullah-accountant">LinkedIn</a>
+      <a href="Rawafid_FY2026_Model.xlsx" download>Excel workbook</a>
+      <a href="ar.html" lang="ar">العربية</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+<section class="hero" aria-labelledby="t">
+  <h1 id="t">A full year of books for a building materials trader, closed and reconciled</h1>
+  <p class="lede">Rawafid Trading is a fictional company I run in Odoo. I posted its transactions from January to December 2026, closed the year with zakat and depreciation, then rebuilt the cash flow, ratios and a break-even model in Excel and tied every figure back to the books.</p>
+
+  <div class="equation" role="img" aria-label="Total assets of 2,096,874.40 riyals equal liabilities plus equity of 2,096,874.40 riyals">
+    <div class="eqrow">
+      <div class="eqlabel"><b>2,096,874.40</b>Assets</div>
+      <div class="bar">
+        <span style="width:37.2%;background:var(--a1)">Cash 37%</span>
+        <span style="width:19.3%;background:var(--a2)">Receivables 19%</span>
+        <span style="width:17.0%;background:var(--a3)" class="l">VAT 17%</span>
+        <span style="width:15.2%;background:var(--a4)" class="l">Fixed 15%</span>
+        <span style="width:11.1%;background:var(--a6)" class="l">Stock 11%</span>
+        <span style="width:0.3%;background:var(--a5)"></span>
+      </div>
+    </div>
+    <div class="equals">=</div>
+    <div class="eqrow">
+      <div class="eqlabel"><b>2,096,874.40</b>Liabilities + equity</div>
+      <div class="bar">
+        <span style="width:19.6%;background:var(--a5)">Payables 20%</span>
+        <span style="width:17.1%;background:var(--a6)" class="l">Output VAT 17%</span>
+        <span style="width:1.2%;background:var(--neg)"></span>
+        <span style="width:47.7%;background:var(--a1)">Share capital 48%</span>
+        <span style="width:14.4%;background:var(--a2)">Earnings 14%</span>
+      </div>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--a1)"></i>Cash 37.2%</span><span><i style="background:var(--a2)"></i>Receivables, net 19.3%</span><span><i style="background:var(--a3)"></i>VAT recoverable 17.0%</span><span><i style="background:var(--a4)"></i>Fixed assets 15.2%</span><span><i style="background:var(--a6)"></i>Inventory 11.1%</span><span><i style="background:var(--a5)"></i>Prepayments 0.3%</span>
+    </div>
+    <div class="legend" style="margin-top:6px">
+      <span><i style="background:var(--a5)"></i>Payables and GOSI 19.6%</span><span><i style="background:var(--a6)"></i>Output VAT 17.1%</span><span><i style="background:var(--neg)"></i>Zakat payable 1.2%</span><span><i style="background:var(--a1)"></i>Share capital 47.7%</span><span><i style="background:var(--a2)"></i>Earnings 14.4%</span>
+    </div>
+  </div>
+
+  <div class="facts">
+    <span>Revenue <b>9,245,000</b></span>
+    <span>Net profit <b>302,994.65</b></span>
+    <span>Zakat <b>26,267.85</b></span>
+    <span>Period <b>Jan to Dec 2026</b></span>
+    <span>Tools <b>Odoo, Excel</b></span>
+  </div>
+  <p class="note" style="margin-top:14px">Simulated company and figures. October to December were posted as consolidated monthly entries. All amounts in Saudi riyals.</p>
+</section>
+
+<section id="statements" aria-labelledby="s1">
+  <h2 id="s1">Financial statements</h2>
+  <p class="intro">From the Odoo Profit and Loss and Balance Sheet reports at 31 December 2026. I moved zakat below profit before zakat, where it belongs; Odoo carries it inside operating expenses.</p>
+  <div class="cols">
+    <div>
+      <h3>Income statement</h3>
+      <div class="scroll"><table class="tbl">
+        <tbody>
+        <tr><td>Product sales</td><td class="n">9,221,000.00</td></tr>
+        <tr><td>Rental income</td><td class="n">24,000.00</td></tr>
+        <tr class="sub"><td>Revenue</td><td class="n">9,245,000.00</td></tr>
+        <tr><td>Cost of goods sold</td><td class="n">(7,334,000.00)</td></tr>
+        <tr class="sub"><td>Gross profit</td><td class="n">1,911,000.00</td></tr>
+        <tr><td class="ind">Salaries and allowances</td><td class="n">(1,110,450.00)</td></tr>
+        <tr><td class="ind">Employer GOSI</td><td class="n">(96,926.40)</td></tr>
+        <tr><td class="ind">Warehouse rent</td><td class="n">(166,000.00)</td></tr>
+        <tr><td class="ind">Vehicle rental</td><td class="n">(87,500.00)</td></tr>
+        <tr><td class="ind">Water and electricity</td><td class="n">(48,000.00)</td></tr>
+        <tr><td class="ind">Insurance</td><td class="n">(37,000.00)</td></tr>
+        <tr><td class="ind">Doubtful debts</td><td class="n">(8,625.00)</td></tr>
+        <tr><td class="ind">Loss on asset revaluation</td><td class="n">(7,000.00)</td></tr>
+        <tr><td class="ind">Other expenses</td><td class="n">(11,845.00)</td></tr>
+        <tr class="sub"><td>Operating income</td><td class="n">337,653.60</td></tr>
+        <tr><td>Interest, FX gain, gain on disposal</td><td class="n">11,010.00</td></tr>
+        <tr><td>Depreciation</td><td class="n">(19,401.10)</td></tr>
+        <tr class="sub"><td>Profit before zakat</td><td class="n">329,262.50</td></tr>
+        <tr><td>Zakat</td><td class="n">(26,267.85)</td></tr>
+        <tr class="tot"><td>Net profit</td><td class="n">302,994.65</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div>
+      <h3>Balance sheet</h3>
+      <div class="scroll"><table class="tbl">
+        <tbody>
+        <tr><td>Cash and banks</td><td class="n">780,218.46</td></tr>
+        <tr><td>Accounts receivable</td><td class="n">412,850.00</td></tr>
+        <tr><td class="ind">Less provision for doubtful debts</td><td class="n">(8,625.00)</td></tr>
+        <tr><td>Inventory</td><td class="n">232,011.00</td></tr>
+        <tr><td>VAT recoverable (input and customs)</td><td class="n">355,581.04</td></tr>
+        <tr><td>Prepaid insurance</td><td class="n">6,000.00</td></tr>
+        <tr><td>Fixed assets, net</td><td class="n">318,838.90</td></tr>
+        <tr class="sub"><td>Total assets</td><td class="n">2,096,874.40</td></tr>
+        <tr><td>Accounts payable</td><td class="n">395,600.00</td></tr>
+        <tr><td>GOSI payable</td><td class="n">14,471.90</td></tr>
+        <tr><td>Output VAT</td><td class="n">357,540.00</td></tr>
+        <tr><td>Zakat payable</td><td class="n">26,267.85</td></tr>
+        <tr class="sub"><td>Total liabilities</td><td class="n">793,879.75</td></tr>
+        <tr><td>Share capital</td><td class="n">1,000,000.00</td></tr>
+        <tr><td>Current-year earnings</td><td class="n">302,994.65</td></tr>
+        <tr class="tot"><td>Liabilities + equity</td><td class="n">2,096,874.40</td></tr>
+        </tbody>
+      </table></div>
+      <span class="check">Balanced, and earnings tie to net profit.</span>
+    </div>
+  </div>
+</section>
+
+<section id="cashflow" aria-labelledby="s2">
+  <h2 id="s2">Cash flow, indirect method</h2>
+  <p class="intro">Odoo's cash flow report left most of the year's cash under "unclassified", so I rebuilt the statement in Excel from the balance sheet. It lands exactly on the 780,218.46 in the bank.</p>
+  <div class="scroll"><table class="tbl">
+    <tbody>
+    <tr class="grp"><td colspan="2">Operating activities</td></tr>
+    <tr><td>Net profit</td><td class="n">302,994.65</td></tr>
+    <tr><td>Depreciation, revaluation loss, provision, unpaid zakat</td><td class="n">61,293.95</td></tr>
+    <tr><td>Gain on disposal (cash shown under investing)</td><td class="n">(8,240.00)</td></tr>
+    <tr><td>Increase in receivables, inventory, VAT recoverable, prepayments</td><td class="n">(1,006,442.04)</td></tr>
+    <tr><td>Increase in payables, GOSI and output VAT</td><td class="n">767,611.90</td></tr>
+    <tr class="sub"><td>Net cash from operations</td><td class="n">117,218.46</td></tr>
+    <tr class="grp"><td colspan="2">Investing activities</td></tr>
+    <tr><td>Purchase of fixed assets</td><td class="n">(468,000.00)</td></tr>
+    <tr><td>Proceeds from sale of a vehicle</td><td class="n">131,000.00</td></tr>
+    <tr class="sub"><td>Net cash used in investing</td><td class="n">(337,000.00)</td></tr>
+    <tr class="grp"><td colspan="2">Financing activities</td></tr>
+    <tr class="sub"><td>Share capital paid in</td><td class="n">1,000,000.00</td></tr>
+    <tr class="tot"><td>Net increase in cash = closing cash</td><td class="n">780,218.46</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">The fixed asset roll-forward closes too: 468,000 bought, less a 7,000 revaluation loss, a 122,760 vehicle sold and 19,401.10 depreciation, leaves 318,838.90.</p>
+</section>
+
+<section id="ratios" aria-labelledby="s3">
+  <h2 id="s3">Financial ratios</h2>
+  <p class="intro">Year-end balances. The company started in 2026, so there are no opening balances to average.</p>
+  <div class="scroll"><table class="tbl">
+    <thead><tr><th>Ratio</th><th class="n">Value</th><th>How</th><th>Reading</th></tr></thead>
+    <tbody>
+    <tr class="grp"><td colspan="4">Liquidity</td></tr>
+    <tr><td>Current ratio</td><td class="n">2.24</td><td>Current assets ÷ current liabilities</td><td>Comfortable</td></tr>
+    <tr><td>Quick ratio</td><td class="n">1.49</td><td>(Cash + net receivables) ÷ current liabilities</td><td>Strong</td></tr>
+    <tr><td>Cash ratio</td><td class="n">0.98</td><td>Cash ÷ current liabilities</td><td>Cash alone nearly covers them</td></tr>
+    <tr class="grp"><td colspan="4">Profitability</td></tr>
+    <tr><td>Gross margin</td><td class="n">20.7%</td><td>Gross profit ÷ revenue</td><td>Normal for trading</td></tr>
+    <tr><td>Operating margin</td><td class="n">3.7%</td><td>Operating income ÷ revenue</td><td>Thin</td></tr>
+    <tr><td>Net margin</td><td class="n">3.3%</td><td>Net profit ÷ revenue</td><td>Thin</td></tr>
+    <tr><td>Operating expenses to gross profit</td><td class="n">82.3%</td><td>1,573,346.40 ÷ 1,911,000</td><td>The main reason margins are thin</td></tr>
+    <tr><td>Return on assets</td><td class="n">14.4%</td><td>Net profit ÷ total assets</td><td>Strong</td></tr>
+    <tr><td>Return on equity</td><td class="n">23.3%</td><td>Net profit ÷ equity</td><td>Strong for a first year</td></tr>
+    <tr class="grp"><td colspan="4">Activity and leverage</td></tr>
+    <tr><td>Asset turnover</td><td class="n">4.41×</td><td>Revenue ÷ total assets</td><td>Assets work hard</td></tr>
+    <tr><td>Debt ratio</td><td class="n">37.9%</td><td>Liabilities ÷ total assets</td><td>Conservative</td></tr>
+    <tr><td>Liabilities to equity</td><td class="n">0.61</td><td>Liabilities ÷ equity</td><td>Safe</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">Receivables days and inventory turnover are left out on purpose: the aging report and the inventory account both need fixing first (see review notes).</p>
+  <p><b>Conclusion.</b> Rawafid is liquid and lightly geared. Its weak point is cost: operating expenses take 82% of gross profit, and salaries alone are 58% of it.</p>
+</section>
+
+<section id="breakeven" aria-labelledby="s4">
+  <h2 id="s4">Break-even model</h2>
+  <p class="intro">Monthly fixed costs are the year's Odoo totals divided by twelve. The variable cost ratio comes from the books (7,334,000 ÷ 9,221,000). Move it to see how sensitive the company is to purchase prices.</p>
+  <div class="model">
+    <div class="ctrl">
+      <label for="vcr">Variable cost ratio</label>
+      <div class="val" id="vcrOut">79.5%</div>
+      <input type="range" id="vcr" min="0.70" max="0.88" step="any" value="0.7953584" aria-describedby="vcrHelp">
+      <div class="note" id="vcrHelp">Books: 79.5%. Zero profit at 82.4%.</div>
+      <button type="button" id="reset">Reset to books</button>
+      <div class="out" aria-live="polite">
+        <div><span>Break-even sales / month</span><b id="be"></b></div>
+        <div><span>Average sales / month</span><b>768,416.67</b></div>
+        <div><span>Margin of safety</span><b id="mos"></b></div>
+        <div><span>Monthly profit (loss)</span><b id="pr"></b></div>
+      </div>
+    </div>
+    <div>
+      <svg id="chart" viewBox="0 0 560 340" width="100%" role="img" aria-label="Break-even chart of revenue and total costs against monthly sales"></svg>
+    </div>
+  </div>
+  <h3>Monthly fixed costs</h3>
+  <div class="scroll"><table class="tbl">
+    <tbody>
+    <tr><td>Salaries and allowances</td><td class="n">92,537.50</td></tr>
+    <tr><td>Warehouse rent</td><td class="n">13,833.33</td></tr>
+    <tr><td>Employer GOSI</td><td class="n">8,077.20</td></tr>
+    <tr><td>Vehicle rental</td><td class="n">7,291.67</td></tr>
+    <tr><td>Depreciation (full monthly charge from the asset register)</td><td class="n">5,375.00</td></tr>
+    <tr><td>Water and electricity</td><td class="n">4,000.00</td></tr>
+    <tr><td>Insurance</td><td class="n">3,083.33</td></tr>
+    <tr><td>Other expenses</td><td class="n">987.08</td></tr>
+    <tr class="tot"><td>Total</td><td class="n">135,185.12</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Reconciliation to the books, full year</h3>
+  <div class="scroll"><table class="tbl">
+    <tbody>
+    <tr><td>Model operating profit × 12</td><td class="n">264,778.60</td></tr>
+    <tr><td>+ Rental income outside product sales</td><td class="n">24,000.00</td></tr>
+    <tr><td>+ Depreciation in the model, booked below operating income in Odoo</td><td class="n">64,500.00</td></tr>
+    <tr><td>− Doubtful debts, revaluation loss and zakat, which Odoo keeps in operating expenses</td><td class="n">(41,892.85)</td></tr>
+    <tr class="tot"><td>Operating income per Odoo (difference: zero)</td><td class="n">311,385.75</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="tax" aria-labelledby="s5">
+  <h2 id="s5">Zakat and VAT</h2>
+  <div class="cols">
+    <div>
+      <h3>Zakat, year-end close</h3>
+      <div class="scroll"><table class="tbl">
+        <tbody>
+        <tr><td>Share capital</td><td class="n">1,000,000.00</td></tr>
+        <tr><td>Profit before zakat</td><td class="n">329,262.50</td></tr>
+        <tr><td>Doubtful debts provision</td><td class="n">8,625.00</td></tr>
+        <tr><td>Less net fixed assets</td><td class="n">(318,838.90)</td></tr>
+        <tr class="sub"><td>Zakat base</td><td class="n">1,019,048.60</td></tr>
+        <tr><td>Rate, Gregorian year (2.5% × 365/354)</td><td class="n">2.5775%</td></tr>
+        <tr class="tot"><td>Zakat booked (account 400072 / 201040)</td><td class="n">26,267.85</td></tr>
+        </tbody>
+      </table></div>
+      <p class="note">A simplified base for a trading company. The full rules are set by ZATCA.</p>
+    </div>
+    <div>
+      <h3>VAT return, July to September</h3>
+      <div class="scroll"><table class="tbl">
+        <thead><tr><th>Box</th><th class="n">Amount</th><th class="n">VAT</th></tr></thead>
+        <tbody>
+        <tr><td>1 Standard-rated sales</td><td class="n">151,819.00</td><td class="n">22,772.85</td></tr>
+        <tr><td>4 Exports</td><td class="n">90,000.00</td><td class="n">-</td></tr>
+        <tr><td>5 Exempt sales</td><td class="n">24,000.00</td><td class="n">-</td></tr>
+        <tr><td>7 Local purchases</td><td class="n">485,700.00</td><td class="n">(72,855.00)</td></tr>
+        <tr><td>8 Imports, VAT paid at customs</td><td class="n">150,000.00</td><td class="n">(22,500.00)</td></tr>
+        <tr><td>9 Imports, reverse charge</td><td class="n">80,000.00</td><td class="n">-</td></tr>
+        <tr><td>11 Exempt purchases</td><td class="n">8,000.00</td><td class="n">-</td></tr>
+        <tr class="tot"><td>16 Net VAT (refund claim)</td><td class="n"></td><td class="n">(72,582.15)</td></tr>
+        </tbody>
+      </table></div>
+      <p class="note">Box 8 traced to BILL/2026/09/0013 and box 9 to BILL/2026/09/0014.</p>
+    </div>
+  </div>
+</section>
+
+<section id="aging" aria-labelledby="s6">
+  <h2 id="s6">Receivables and payables</h2>
+  <p class="intro">Balances at 31 December 2026 by customer and vendor. The totals agree with the balance sheet; the aging buckets need work, explained in the review notes.</p>
+  <div class="cols">
+    <div class="scroll"><table class="tbl">
+      <thead><tr><th>Customer</th><th class="n">Balance</th></tr></thead>
+      <tbody>
+      <tr><td>Al-Noor Contracting</td><td class="n">98,900.00</td></tr>
+      <tr><td>Modern Building Est.</td><td class="n">76,590.00</td></tr>
+      <tr><td>Al-Diyar General Contracting</td><td class="n">59,340.00</td></tr>
+      <tr><td>Al-Ufuq Contracting</td><td class="n">59,340.00</td></tr>
+      <tr><td>Al-Sahil Construction Est.</td><td class="n">59,340.00</td></tr>
+      <tr><td>Najm Al-Khaleej Real Estate</td><td class="n">59,340.00</td></tr>
+      <tr class="tot"><td>Accounts receivable</td><td class="n">412,850.00</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table class="tbl">
+      <thead><tr><th>Vendor</th><th class="n">Balance</th></tr></thead>
+      <tbody>
+      <tr><td>Al-Khaleej Building Materials</td><td class="n">197,800.00</td></tr>
+      <tr><td>Modern Steel Est.</td><td class="n">98,900.00</td></tr>
+      <tr><td>Al-Waha Brick and Block Factory</td><td class="n">98,900.00</td></tr>
+      <tr><td>GOSI (no partner set in Odoo)</td><td class="n">14,471.90</td></tr>
+      <tr class="tot"><td>Payables</td><td class="n">410,071.90</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section id="review" aria-labelledby="s7">
+  <h2 id="s7">Review notes</h2>
+  <p class="intro">What I found when I reviewed the year, and what I would do about it.</p>
+  <ul class="findings">
+    <li><b>Aging buckets are distorted.</b> Receivables show −368,000 in 1–30 days against 358,800 older than 120 days, and payables show the same pattern. Payments were posted but not matched to invoices. Action: reconcile each payment to its invoice in Odoo, then reprint the aging.</li>
+    <li><b>VAT accounts were never settled.</b> Input VAT (355,581.04) and output VAT (357,540) kept accumulating all year, and the Q3 return picked up only part of the quarter's sales because many imported lines had no tax grid. Action: put a tax grid on every sales and purchase line and post a settlement entry at the end of each quarter.</li>
+    <li><b>Odoo's cash flow report is mostly "unclassified".</b> The accounts carry no cash flow tags. Action: tag them; until then the Excel statement above is the reliable one.</li>
+    <li><b>Depreciation started late.</b> Assets were registered in mid-September, so only 19,401.10 was booked against a full-year charge of about 64,500. The model uses the full monthly charge and the reconciliation shows the gap.</li>
+    <li><b>The inventory account does not move with sales.</b> Purchases go straight to cost of goods sold, so inventory turnover means nothing yet. Action: enable perpetual inventory valuation.</li>
+    <li><b>A GOSI line sits under an "unknown" vendor.</b> Action: create GOSI as a partner and assign the payroll entries to it.</li>
+  </ul>
+</section>
+
+<section id="scope" aria-labelledby="s8">
+  <h2 id="s8">What the work covered</h2>
+  <ul class="tags" style="margin-top:16px">
+    <li>Chart of accounts</li><li>Customer and vendor invoices</li><li>Journal entries and imports</li><li>Payroll with GOSI</li><li>VAT return (KSA)</li><li>Zakat</li><li>Bank reconciliation</li><li>Fixed assets: depreciation, disposal, revaluation</li><li>Inventory valuation (FIFO, weighted average)</li><li>Accruals, prepayments, deferred income</li><li>Doubtful debts provision</li><li>Year-end close</li><li>Financial statements</li><li>Indirect cash flow</li><li>Ratio analysis</li><li>Break-even and sensitivity</li><li>Excel modeling</li>
+  </ul>
+  <p style="margin-top:24px"><a class="dl" href="Rawafid_FY2026_Model.xlsx" download>Download the Excel workbook</a></p>
+  <p class="note">Seven sheets with live formulas: Odoo balances, ratios, cash flow, zakat, break-even with sensitivity and chart, and the reconciliation to the books. Every check cell returns zero.</p>
+</section>
+
+</div>
+</main>
+
+<footer><div class="wrap">Rawafid portfolio by Omar Abdullah Alharbi. Fictional company, simulated figures, built in Odoo and Excel.</div></footer>
+
+<script>
+(function(){
+  var F=135185.1166667, S=768416.6666667, BOOK=0.7953584;
+  var fmt=function(x){var s=Math.abs(x).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});return x<0?'('+s+')':s;};
+  var el=function(id){return document.getElementById(id)};
+  var svg=el('chart'), NS='http://www.w3.org/2000/svg';
+  var W=560,H=340,L=64,R=16,T=16,Bm=40,MAX=1200000;
+  var X=function(v){return L+(v/MAX)*(W-L-R)}, Y=function(v){return H-Bm-(v/MAX)*(H-T-Bm)};
+  function mk(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);svg.appendChild(e);return e;}
+  function draw(v){
+    svg.innerHTML='';
+    var css=getComputedStyle(document.documentElement);
+    var rule=css.getPropertyValue('--rule'),teal=css.getPropertyValue('--teal'),ochre=css.getPropertyValue('--ochre'),ink=css.getPropertyValue('--ink'),muted=css.getPropertyValue('--muted');
+    for(var i=0;i<=6;i++){var g=i*200000;
+      mk('line',{x1:L,x2:W-R,y1:Y(g),y2:Y(g),stroke:rule});
+      var t=mk('text',{x:L-8,y:Y(g)+4,'text-anchor':'end'});t.textContent=g>=1000000?(g/1e6)+'m':(g/1000)+'k';
+      var t2=mk('text',{x:X(g),y:H-Bm+18,'text-anchor':'middle'});t2.textContent=g>=1000000?(g/1e6)+'m':(g/1000)+'k';}
+    var tx=mk('text',{x:(L+W-R)/2,y:H-6,'text-anchor':'middle'});tx.textContent='Monthly sales (SAR)';
+    mk('line',{x1:X(0),y1:Y(0),x2:X(MAX),y2:Y(MAX),stroke:teal,'stroke-width':2.5});
+    mk('line',{x1:X(0),y1:Y(F),x2:X(MAX),y2:Y(Math.min(F+v*MAX,MAX*1.2)),stroke:ochre,'stroke-width':2.5});
+    mk('line',{x1:X(0),y1:Y(F),x2:X(MAX),y2:Y(F),stroke:muted,'stroke-dasharray':'4 4'});
+    mk('line',{x1:X(S),y1:Y(0),x2:X(S),y2:Y(MAX),stroke:ink,'stroke-dasharray':'2 4'});
+    var ts=mk('text',{x:X(S)+6,y:T+12});ts.textContent='Average sales';
+    var be=F/(1-v);
+    if(be<=MAX){mk('circle',{cx:X(be),cy:Y(be),r:6,fill:ochre,stroke:'none'});
+      var tb=mk('text',{x:X(be)-8,y:Y(be)-12,'text-anchor':'end'});tb.textContent='Break-even';}
+    var l1=mk('text',{x:X(1000000),y:Y(1000000)-10,'text-anchor':'end'});l1.textContent='Revenue';var l3=mk('text',{x:X(1000000)+6,y:Y(F+v*1000000)+18});l3.textContent='Total costs';
+    var l2=mk('text',{x:L+6,y:Y(F)-8});l2.textContent='Fixed costs';
+  }
+  function update(){
+    var v=parseFloat(el('vcr').value), be=F/(1-v), mos=(S-be)/S, p=S*(1-v)-F;
+    el('vcrOut').textContent=(v*100).toFixed(1)+'%';
+    el('be').textContent=fmt(be);
+    el('mos').textContent=(mos*100).toFixed(1)+'%';
+    var pr=el('pr'); pr.textContent=fmt(p); pr.className=p<0?'neg':'pos';
+    draw(v);
+  }
+  el('vcr').addEventListener('input',update);
+  el('reset').addEventListener('click',function(){el('vcr').value=BOOK;update();});
+  if(window.matchMedia){matchMedia('(prefers-color-scheme: dark)').addEventListener('change',update);}
+  update();
+})();
+</script>
+</body>
+</html>
